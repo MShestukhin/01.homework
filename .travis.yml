@@ -9,13 +9,6 @@ addons:
     packages:
       - g++-7
 
-deploy:
-  provider: bintray
-  file: "helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb"
-  user: "mshestukhin"
-  key: "b4f4a90c6303a3c88f3b2e31009c0ebeeb1ce8c9"
-  skip_cleanup: true # to upload artifacts created during the build
-
 before_install:
   - sudo add-apt-repository -y ppa:nschloe/boost-nightly
   - sudo apt-get update -qq
@@ -31,3 +24,9 @@ script:
   - cmake --build .
   - cmake --build . --target test
   - cmake --build . --target package
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+  - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -umshestukhin:$BINTRAY_API_KEY "https://api.bintray.com/svyazcom/01.homework/01.homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
