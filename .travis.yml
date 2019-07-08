@@ -11,7 +11,7 @@ addons:
 
 deploy:
   provider: bintray
-  file: "helloworld"
+  file: "helloworld_cli"
   user: "mshestukhin"
   key: "b4f4a90c6303a3c88f3b2e31009c0ebeeb1ce8c9"
   skip_cleanup: true # to upload artifacts created during the build
@@ -29,3 +29,4 @@ script:
   - cmake --version
   - cmake CMakeLists.txt
   - cmake  --build . --target helloworld
+  - make
